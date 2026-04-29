@@ -1,0 +1,102 @@
+[
+  {
+    "title": "Publication  #1: How to seeds DB's",
+    "author": "Author Maria Mundo",
+    "authorTwo": "Author Two Emmanuel Mundo",
+    "authorThree": "Author Three Maria Perez",
+    "publisher": "Arguello Publishing",
+    "issn": "6364-5647",
+    "available": false,
+    "type": "MAGAZINE"
+  },
+  {
+    "title": "Publication  #2: How to seeds DB's",
+    "author": "Author Emmanuel Mundo",
+    "authorTwo": "Author Two Maria Arguello",
+    "authorThree": "Author Three Fernanda Arguello",
+    "publisher": "Arguello Publishing",
+    "issn": "2798-5647",
+    "available": true,
+    "type": "PAPER"
+  },
+  {
+    "title": "Publication  #3: How to seeds DB's",
+    "author": "Author Gerardo Arguello",
+    "authorTwo": "Author Two Fernanda Ramos",
+    "authorThree": "Author Three Emmanuel Mundo",
+    "publisher": "Arguello Publishing",
+    "issn": "7271-5647",
+    "available": false,
+    "type": "MAGAZINE"
+  },
+  {
+    "title": "Publication  #4: How to seeds DB's",
+    "author": "Author Maria Mundo",
+    "authorTwo": "Author Two Maria Mundo",
+    "authorThree": "Author Three Emmanuel Perez",
+    "publisher": "Mundo Publishing",
+    "issn": "8982-5647",
+    "available": true,
+    "type": "PAPER"
+  },
+  {
+    "title": "Publication  #5: How to seeds DB's",
+    "author": "Author Fernanda Mundo",
+    "authorTwo": "Author Two Emmanuel Arguello",
+    "authorThree": "Author Three Fernanda Perez",
+    "publisher": "Mundo Publishing",
+    "issn": "2190-5647",
+    "available": false,
+    "type": "PAPER"
+  },
+  {
+    "title": "Publication  #6: How to seeds DB's",
+    "author": "Author Fernanda Ramos",
+    "authorTwo": "Author Two Gerardo Ramos",
+    "authorThree": "Author Three Maria Ramos",
+    "publisher": "Arguello Publishing",
+    "issn": "8472-5647",
+    "available": true,
+    "type": "PAPER"
+  },
+  {
+    "title": "Publication  #7: How to seeds DB's",
+    "author": "Author Gerardo Ramos",
+    "authorTwo": "Author Two Emmanuel Arguello",
+    "authorThree": "Author Three Emmanuel Arguello",
+    "publisher": "Ramos Publishing",
+    "issn": "5809-5647",
+    "available": false,
+    "type": "MAGAZINE"
+  },
+  {
+    "title": "Publication  #8: How to seeds DB's",
+    "author": "Author Maria Ramos",
+    "authorTwo": "Author Two Fernanda Arguello",
+    "authorThree": "Author Three Gerardo Ramos",
+    "publisher": "Arguello Publishing",
+    "issn": "1163-5647",
+    "available": true,
+    "type": "PAPER"
+  },
+  {
+    "title": "Publication  #9: How to seeds DB's",
+    "author": "Author Maria Arguello",
+    "authorTwo": "Author Two Gerardo Perez",
+    "authorThree": "Author Three Gerardo Arguello",
+    "publisher": "Mundo Publishing",
+    "issn": "1280-5647",
+    "available": false,
+    "type": "PAPER"
+  },
+  {
+    "title": "Publication  #10: How to seeds DB's",
+    "author": "Author Emmanuel Perez",
+    "authorTwo": "Author Two Fernanda Ramos",
+    "authorThree": "Author Three Fernanda Ramos",
+    "publisher": "Ramos Publishing",
+    "issn": "3177-5647",
+    "available": true,
+    "type": "PAPER"
+  }
+]
