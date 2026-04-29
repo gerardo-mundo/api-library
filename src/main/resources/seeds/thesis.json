@@ -1,0 +1,242 @@
+[
+  {
+    "title": "Publication  #1: How to seeds DB's",
+    "author": "Maria Ramos",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Avila, Fernanda",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": false
+  },
+  {
+    "title": "Publication  #2: How to seeds DB's",
+    "author": "Argenis Perez",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Perez, Maria",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": true
+  },
+  {
+    "title": "Publication  #3: How to seeds DB's",
+    "author": "Argenis Mundo",
+    "university": "Universidad Ramos",
+    "thesisAdvisor": "Doctor(a) Avila, Maria",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": false
+  },
+  {
+    "title": "Publication  #4: How to seeds DB's",
+    "author": "Fernanda Mundo",
+    "university": "Universidad Mundo",
+    "thesisAdvisor": "Doctor(a) Arguello, Gerardo",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": true
+  },
+  {
+    "title": "Publication  #5: How to seeds DB's",
+    "author": "Gerardo Ramos",
+    "university": "Universidad Ramos",
+    "thesisAdvisor": "Doctor(a) Avila, Emmanuel",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": false
+  },
+  {
+    "title": "Publication  #6: How to seeds DB's",
+    "author": "Fernanda Ramos",
+    "university": "Universidad Ramos",
+    "thesisAdvisor": "Doctor(a) Perez, Gerardo",
+    "bachelorDegree": "Licenciatura en Quimica industrial",
+    "available": true
+  },
+  {
+    "title": "Publication  #7: How to seeds DB's",
+    "author": "Maria Mundo",
+    "university": "Universidad Arguello",
+    "thesisAdvisor": "Doctor(a) Arguello, Fernanda",
+    "bachelorDegree": "Licenciatura en Mecanica cuantica",
+    "available": false
+  },
+  {
+    "title": "Publication  #8: How to seeds DB's",
+    "author": "Emmanuel Arguello",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Perez, Emmanuel",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": true
+  },
+  {
+    "title": "Publication  #9: How to seeds DB's",
+    "author": "Gerardo Perez",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Perez, Emmanuel",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": false
+  },
+  {
+    "title": "Publication  #10: How to seeds DB's",
+    "author": "Emmanuel Arguello",
+    "university": "Universidad Arguello",
+    "thesisAdvisor": "Doctor(a) Ramos, Maria",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": true
+  },
+  {
+    "title": "Publication  #11: How to seeds DB's",
+    "author": "Emmanuel Perez",
+    "university": "Universidad Arguello",
+    "thesisAdvisor": "Doctor(a) Perez, Gerardo",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": false
+  },
+  {
+    "title": "Publication  #12: How to seeds DB's",
+    "author": "Fernanda Avila",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Mundo, Gerardo",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": true
+  },
+  {
+    "title": "Publication  #13: How to seeds DB's",
+    "author": "Emmanuel Ramos",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Mundo, Fernanda",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": false
+  },
+  {
+    "title": "Publication  #14: How to seeds DB's",
+    "author": "Fernanda Perez",
+    "university": "Universidad Mundo",
+    "thesisAdvisor": "Doctor(a) Mundo, Argenis",
+    "bachelorDegree": "Licenciatura en Mecanica cuantica",
+    "available": true
+  },
+  {
+    "title": "Publication  #15: How to seeds DB's",
+    "author": "Emmanuel Mundo",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Perez, Fernanda",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": false
+  },
+  {
+    "title": "Publication  #16: How to seeds DB's",
+    "author": "Argenis Avila",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Arguello, Maria",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": true
+  },
+  {
+    "title": "Publication  #17: How to seeds DB's",
+    "author": "Maria Mundo",
+    "university": "Universidad Ramos",
+    "thesisAdvisor": "Doctor(a) Arguello, Emmanuel",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": false
+  },
+  {
+    "title": "Publication  #18: How to seeds DB's",
+    "author": "Gerardo Mundo",
+    "university": "Universidad Arguello",
+    "thesisAdvisor": "Doctor(a) Avila, Gerardo",
+    "bachelorDegree": "Licenciatura en Biologia",
+    "available": true
+  },
+  {
+    "title": "Publication  #19: How to seeds DB's",
+    "author": "Fernanda Mundo",
+    "university": "Universidad Mundo",
+    "thesisAdvisor": "Doctor(a) Perez, Emmanuel",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": false
+  },
+  {
+    "title": "Publication  #20: How to seeds DB's",
+    "author": "Argenis Arguello",
+    "university": "Universidad Mundo",
+    "thesisAdvisor": "Doctor(a) Avila, Emmanuel",
+    "bachelorDegree": "Licenciatura en Quimica industrial",
+    "available": true
+  },
+  {
+    "title": "Publication  #21: How to seeds DB's",
+    "author": "Emmanuel Mundo",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Avila, Gerardo",
+    "bachelorDegree": "Licenciatura en Mecanica cuantica",
+    "available": false
+  },
+  {
+    "title": "Publication  #22: How to seeds DB's",
+    "author": "Gerardo Avila",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Arguello, Argenis",
+    "bachelorDegree": "Licenciatura en Quimica industrial",
+    "available": true
+  },
+  {
+    "title": "Publication  #23: How to seeds DB's",
+    "author": "Argenis Avila",
+    "university": "Universidad Arguello",
+    "thesisAdvisor": "Doctor(a) Ramos, Emmanuel",
+    "bachelorDegree": "Licenciatura en Mecanica cuantica",
+    "available": false
+  },
+  {
+    "title": "Publication  #24: How to seeds DB's",
+    "author": "Fernanda Mundo",
+    "university": "Universidad Mundo",
+    "thesisAdvisor": "Doctor(a) Arguello, Gerardo",
+    "bachelorDegree": "Licenciatura en Mecanica cuantica",
+    "available": true
+  },
+  {
+    "title": "Publication  #25: How to seeds DB's",
+    "author": "Argenis Arguello",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Arguello, Argenis",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": false
+  },
+  {
+    "title": "Publication  #26: How to seeds DB's",
+    "author": "Argenis Ramos",
+    "university": "Universidad Perez",
+    "thesisAdvisor": "Doctor(a) Avila, Fernanda",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": true
+  },
+  {
+    "title": "Publication  #27: How to seeds DB's",
+    "author": "Fernanda Mundo",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Perez, Argenis",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": false
+  },
+  {
+    "title": "Publication  #28: How to seeds DB's",
+    "author": "Emmanuel Perez",
+    "university": "Universidad Mundo",
+    "thesisAdvisor": "Doctor(a) Avila, Fernanda",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": true
+  },
+  {
+    "title": "Publication  #29: How to seeds DB's",
+    "author": "Gerardo Mundo",
+    "university": "Universidad Ramos",
+    "thesisAdvisor": "Doctor(a) Perez, Maria",
+    "bachelorDegree": "Licenciatura en Tecnologias",
+    "available": false
+  },
+  {
+    "title": "Publication  #30: How to seeds DB's",
+    "author": "Emmanuel Arguello",
+    "university": "Universidad Avila",
+    "thesisAdvisor": "Doctor(a) Arguello, Fernanda",
+    "bachelorDegree": "Licenciatura en Medicina",
+    "available": true
+  }
+]
