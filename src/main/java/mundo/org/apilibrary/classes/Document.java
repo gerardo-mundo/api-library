@@ -1,7 +1,8 @@
 package mundo.org.apilibrary.classes;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,22 +23,12 @@ public abstract class Document {
 
     @Column(nullable = false)
     private String author;
-
-    @Column(nullable = false)
-    private String publisher;
-    private String collection;
-
-    @Column(nullable = false)
-    private int acquisition;
-
-    @Column(nullable = false,  unique = true)
-    private String isbn;
     private boolean available = false;
 
-    @CreationTimestamp(source = SourceType.DB)
+    @CreationTimestamp(source = SourceType.VM)
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp(source = SourceType.DB)
+    @UpdateTimestamp(source = SourceType.VM)
     private LocalDateTime updatedAt;
 }
