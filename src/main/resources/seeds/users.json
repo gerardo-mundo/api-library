@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Juan Perez",
+    "email": "admin@mail.com",
+    "password": "Abc@123",
+    "role": "ROLE_ADMIN",
+    "employeeKey": "1234567A"
+  },
+  {
+    "name": "Ramon Ramos",
+    "email": "r.r@mail.com",
+    "password": "Abc@123",
+    "role": "ROLE_LIBRARIAN",
+    "employeeKey": "1234568L"
+  },
+  {
+    "name": "Juan Polenz Castro",
+    "email": "juan.polenz@mail.com",
+    "password": "Abc@123",
+    "role": "ROLE_PROFESSOR",
+    "employeeKey": "1234569P"
+  },
+  {
+    "name": "Adriana Judith",
+    "email": "a.j@mail.com",
+    "password": "Abc@123",
+    "role": "ROLE_STUDENT",
+    "enrollmentId": "XYZ12345"
+  },
+  {
+    "name": "Karla Paganini",
+    "email": "k.p@mail.com",
+    "password": "Abc@123",
+    "role": "ROLE_ADMINISTRATIVE",
+    "employeeKey": "1234561A"
+  }
+]
