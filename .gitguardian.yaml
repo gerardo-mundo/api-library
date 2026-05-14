@@ -1,0 +1,5 @@
+# .gitguardian.yaml
+version: 1
+paths-ignore:
+  - '**/src/main/resources/seeds/*.json'
+  - 'src/main/resources/seeds/**'
