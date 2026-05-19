@@ -1,9 +1,13 @@
 package mundo.org.apilibrary.mapper;
 
-import mundo.org.apilibrary.books.BookCreationDTO;
+import mundo.org.apilibrary.DTO.books.BookCreationDTO;
+import mundo.org.apilibrary.DTO.books.BookDTO;
 import mundo.org.apilibrary.entities.Book;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
@@ -12,5 +16,7 @@ public interface BookMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Book toEntity(BookCreationDTO dto);
 
-    // BookCreationDTO toDto(Book entity);
+    BookDTO toDto(Book entity);
+
+    List<BookDTO> toListDto(List<Book> entity);
 }
