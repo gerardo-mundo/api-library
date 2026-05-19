@@ -3,7 +3,8 @@ package mundo.org.apilibrary.services;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
-import mundo.org.apilibrary.books.BookCreationDTO;
+import mundo.org.apilibrary.DTO.books.BookCreationDTO;
+import mundo.org.apilibrary.DTO.books.BookDTO;
 import mundo.org.apilibrary.entities.Book;
 import mundo.org.apilibrary.mapper.BookMapper;
 import mundo.org.apilibrary.repository.BookRepository;
@@ -24,11 +25,17 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> findAllBooks() { return bookRepository.findAll(); }
+    public List<BookDTO> findAllBooks() {
+        List<Book> books = bookRepository.findAll();
+        return this.bookMapper.toListDto(books);
+    }
 
-    public Book findById(UUID id) {
-        return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with ID: " + id));
+    public BookDTO findById(UUID id) {
+        return this.bookMapper.toDto(bookRepository.findById(id).orElse(null));
+    }
+
+    public BookDTO findByIsbn(String isbn) {
+        return this.bookMapper.toDto(bookRepository.findByIsbn(isbn).orElse(null));
     }
 
     @Transactional
