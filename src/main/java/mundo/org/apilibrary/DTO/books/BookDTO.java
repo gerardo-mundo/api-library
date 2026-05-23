@@ -1,6 +1,5 @@
-package mundo.org.apilibrary.books;
+package mundo.org.apilibrary.DTO.books;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record BookDTO(
@@ -12,8 +11,7 @@ public record BookDTO(
         int acquisition,
         String isbn,
         boolean available,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt,
         String authorTwo,
         String authorThree
-) {}
+) {
+}
