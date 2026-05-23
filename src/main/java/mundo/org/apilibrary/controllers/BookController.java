@@ -67,11 +67,8 @@ public class BookController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<BookDTO>> updateBook(@PathVariable UUID id, @Valid @RequestBody BookCreationDTO bookCreationDTO) {
-        Book bookEntity = bookService.updateBook(id, bookCreationDTO);
+        BookDTO bookDTO = bookService.updateBook(id, bookCreationDTO);
 
-        /* TODO: manage the returned value without mapping to BookDTO inside the controller layer: check out
-            bookService.updateBook **/
-        BookDTO bookDTO = bookMapper.toDto(bookEntity);
         return ResponseEntity.ok(ApiResponse.success(bookDTO, "Book updated!"));
     }
 
