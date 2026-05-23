@@ -12,4 +12,8 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     Optional<Book> findByIsbn(String isbn);
     List<Book> findAllByAuthor(String author);
     boolean existsByIsbn(String isbn);
+
+    boolean existsByIsbnAndIdNot(String isbn, UUID id);
+
+    boolean existsByAcquisitionAndIdNot(int acquisition, UUID id);
 }

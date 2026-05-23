@@ -6,6 +6,7 @@ import mundo.org.apilibrary.entities.Book;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -19,4 +20,9 @@ public interface BookMapper {
     BookDTO toDto(Book entity);
 
     List<BookDTO> toListDto(List<Book> entity);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void updateEntityFromDto(BookCreationDTO dto, @MappingTarget Book book);
 }

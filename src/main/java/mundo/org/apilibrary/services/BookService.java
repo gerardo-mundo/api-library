@@ -49,15 +49,22 @@ public class BookService {
     }
 
     @Transactional
-    public Book updateBook(UUID id, BookCreationDTO dto) {
-        var book = bookRepository.findById(id);
+    public BookDTO updateBook(UUID id, BookCreationDTO dto) {
+        Book bookToUpdate = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book with ID " + id + " not found"));
 
-        if(book.isEmpty()) {
-            throw new EntityNotFoundException("Book with ISBN " + dto.isbn() + " not found");
+        if (bookRepository.existsByAcquisitionAndIdNot(dto.acquisition(), id)) {
+            throw new EntityExistsException("Book with Acquisition: " + dto.acquisition() + " already exists");
         }
 
-        var bookUpdated = bookMapper.toEntity(dto);
-        return bookRepository.save(bookUpdated);
+        if (bookRepository.existsByIsbnAndIdNot(dto.isbn(), id)) {
+            throw new EntityExistsException("Book with ISBN: " + dto.isbn() + "already exists");
+        }
+
+        bookMapper.updateEntityFromDto(dto, bookToUpdate);
+        Book updatedBook = bookRepository.saveAndFlush(bookToUpdate);
+
+        return bookMapper.toDto(updatedBook);
     }
 
     @Transactional
