@@ -13,8 +13,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ThesisMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "created_at", ignore = true)
-    @Mapping(target = "updated_at", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Thesis toEntity(ThesisCreationDTO thesisDTO);
 
     ThesisDTO toDto(Thesis thesis);
@@ -22,7 +22,7 @@ public interface ThesisMapper {
     List<ThesisDTO> toListDto(List<Thesis> thesis);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "created_at", ignore = true)
-    @Mapping(target = "updated_at", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     void updateEntityFromDto(ThesisDTO dto, @MappingTarget Thesis entity);
 }
