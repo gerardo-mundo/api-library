@@ -2,7 +2,7 @@ package mundo.org.apilibrary.seeder.implementations;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mundo.org.apilibrary.entities.Publication;
+import mundo.org.apilibrary.classes.Publication;
 import mundo.org.apilibrary.repository.PublicationRepository;
 import mundo.org.apilibrary.seeder.JsonEntitySeeder;
 import org.springframework.stereotype.Component;

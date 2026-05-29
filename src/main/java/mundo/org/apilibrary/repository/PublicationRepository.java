@@ -1,6 +1,6 @@
 package mundo.org.apilibrary.repository;
 
-import mundo.org.apilibrary.entities.Publication;
+import mundo.org.apilibrary.classes.Publication;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

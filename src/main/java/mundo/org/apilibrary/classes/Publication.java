@@ -1,11 +1,12 @@
-package mundo.org.apilibrary.entities;
+package mundo.org.apilibrary.classes;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import mundo.org.apilibrary.classes.Document;
+import mundo.org.apilibrary.entities.Magazine;
+import mundo.org.apilibrary.entities.Paper;
 
 @Entity
 @Table(name = "publications")
