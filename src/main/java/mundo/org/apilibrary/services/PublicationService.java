@@ -12,10 +12,12 @@ import mundo.org.apilibrary.repository.PublicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final PublicationMapper publicationMapper;
@@ -31,6 +33,11 @@ public class PublicationService {
         if (publicationList.isEmpty()) throw new EntityNotFoundException("Publications list were not found");
 
         return publicationMapper.toDTOList(publicationList);
+    }
+
+    public List<PublicationDTO> findByPublisher(String publisher) {
+        return publicationRepository.getAllByPublisherIgnoreCase(publisher)
+                .stream().map(publicationMapper::toDTO).sorted(Comparator.comparing(PublicationDTO::title)).toList();
     }
 
     public PublicationDTO getPublicationByIssn(String issn) {
