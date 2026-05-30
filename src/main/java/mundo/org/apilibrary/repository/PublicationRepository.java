@@ -10,4 +10,8 @@ import java.util.UUID;
 public interface PublicationRepository extends JpaRepository<Publication, UUID> {
     Optional<Publication> findPublicationByIssn(String issn);
     List<Publication> getAllByPublisher(String publisher);
+
+    boolean existsByIssnAndIdNot(String issn, UUID id);
+
+    boolean existsByIssn(String issn);
 }
