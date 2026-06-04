@@ -4,9 +4,12 @@ import mundo.org.apilibrary.DTO.publications.PublicationCreationDTO;
 import mundo.org.apilibrary.DTO.publications.PublicationDTO;
 import mundo.org.apilibrary.classes.Publication;
 
+import mundo.org.apilibrary.entities.Magazine;
+import mundo.org.apilibrary.entities.Paper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.ObjectFactory;
 
 import java.util.List;
 
@@ -26,4 +29,12 @@ public interface PublicationMapper {
 
     List<PublicationDTO> toDTOList(List<Publication> publicationList);
 
+    @ObjectFactory
+    default Publication createPublication(PublicationCreationDTO dto) {
+        return switch (dto.type()) {
+            case PAPER -> new Paper();
+            case MAGAZINE -> new Magazine();
+            default -> throw new IllegalArgumentException("invalid type: " + dto.type());
+        };
+    }
 }
