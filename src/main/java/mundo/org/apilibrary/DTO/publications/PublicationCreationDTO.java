@@ -1,7 +1,7 @@
 package mundo.org.apilibrary.DTO.publications;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import mundo.org.apilibrary.enums.PublicationType;
 
@@ -15,7 +15,7 @@ public record PublicationCreationDTO(
         @Size(min = 8, max = 10)
         String issn,
         @NotBlank String publisher,
-        @NotEmpty PublicationType type,
+        @NotNull PublicationType type,
         String category,
         String volume
 ) {
