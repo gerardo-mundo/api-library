@@ -39,8 +39,9 @@ public class UserService {
                 () -> new EntityNotFoundException("User with email: " + email + " not found"));
     }
 
-    public List<UserDTO> findUsersByRole(Role role) {
-        return userRepository.findByRole(role).stream().map(userMapper::toDto).toList();
+    public List<UserDTO> findUsersByRole(String role) {
+        Role parsedRole = Role.valueOf("ROLE_" + role.trim().toUpperCase());
+        return userRepository.findByRole(parsedRole).stream().map(userMapper::toDto).toList();
     }
 
     public List<UserDTO> findUsersByIsActive(boolean isActive) {
