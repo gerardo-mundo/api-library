@@ -19,6 +19,8 @@ public record UserCreationDTO(
         )
         String password,
         @NotNull(message = "A valid role value is required")
-        Role role
+        Role role,
+        String enrollmentId,
+        String employeeKey
 ) {
 }
