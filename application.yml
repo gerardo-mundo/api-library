@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: api-library
+
+# Custom properties
+security:
+  jwt:
+    secret-key: ${JWT_SECRET:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}
+    expiration-time: 86400000
