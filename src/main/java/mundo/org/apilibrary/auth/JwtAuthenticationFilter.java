@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import mundo.org.apilibrary.services.JwtService;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
 
                     UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(
-                            userEmail, Collections.singletonList(authority), null);
+                            userEmail, null, Collections.singletonList(authority));
 
                     userToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -54,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            filterChain.doFilter(request, response);
+            throw new AuthenticationServiceException(e.getMessage());
         }
         filterChain.doFilter(request, response);
     }
