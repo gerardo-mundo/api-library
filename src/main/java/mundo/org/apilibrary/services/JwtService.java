@@ -16,9 +16,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     @Value("${security.jwt.secret-key}")
-    private static final String SECRET_KEY;
+    private static String SECRET_KEY;
     @Value("${security.jwt.expiration-time}")
-    private static final long EXPIRATION_DATE;
+    private static long EXPIRATION_DATE;    
 
     public String generateToken(User user) {
         Map<String, Object> userClaims = new HashMap<>();
