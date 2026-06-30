@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 
 import mundo.org.apilibrary.DTO.users.UserCreationDTO;
 import mundo.org.apilibrary.DTO.users.UserDTO;
+import mundo.org.apilibrary.DTO.users.UserUpdateDTO;
+import mundo.org.apilibrary.DTO.users.UserUpdatePasswordDTO;
 import mundo.org.apilibrary.payload.ApiResponse;
 import mundo.org.apilibrary.services.UserService;
 
@@ -56,10 +58,17 @@ public class UserController {
 
     //TODO: fix the assignment of an enrollmentId to an Employee entity and vice-versa
     @PutMapping("/update/{id}")
-    public ResponseEntity<ApiResponse<UserDTO>> updateUser(@RequestBody @Valid UserCreationDTO userDTO,
+    public ResponseEntity<ApiResponse<UserDTO>> updateUser(@RequestBody @Valid UserUpdateDTO userDTO,
                                                            @PathVariable UUID id) {
         return ResponseEntity.ok(ApiResponse.success(userService
                 .updateUser(userDTO, id), "User updated successfully"));
+    }
+
+    @PutMapping("/update/password/{id}")
+    public ResponseEntity<ApiResponse<UserDTO>> updateUserPassword(@RequestBody @Valid UserUpdatePasswordDTO passwordDTO,
+                                                                   @PathVariable UUID id) {
+        return ResponseEntity.ok(ApiResponse.
+                success(userService.updateUserPassword(passwordDTO, id), "Password updated successfully"));
     }
 
     @DeleteMapping("/{id}")
