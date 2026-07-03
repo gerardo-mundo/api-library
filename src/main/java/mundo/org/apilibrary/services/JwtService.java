@@ -1,7 +1,6 @@
 package mundo.org.apilibrary.services;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwe;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import mundo.org.apilibrary.classes.User;
@@ -16,9 +15,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     @Value("${security.jwt.secret-key}")
-    private static String SECRET_KEY;
+    private String SECRET_KEY;
     @Value("${security.jwt.expiration-time}")
-    private static long EXPIRATION_DATE;    
+    private long EXPIRATION_DATE;
 
     public String generateToken(User user) {
         Map<String, Object> userClaims = new HashMap<>();
@@ -54,10 +53,9 @@ public class JwtService {
 
     private <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parser()
-                .key().and()
+                .verifyWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                 .build()
-                .parse(token)
-                .accept(Jwe.CLAIMS)
+                .parseSignedClaims(token)
                 .getPayload();
         return claimsResolver.apply(claims);
     }
