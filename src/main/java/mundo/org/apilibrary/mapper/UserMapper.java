@@ -2,6 +2,7 @@ package mundo.org.apilibrary.mapper;
 
 import mundo.org.apilibrary.DTO.users.UserCreationDTO;
 import mundo.org.apilibrary.DTO.users.UserDTO;
+import mundo.org.apilibrary.DTO.users.UserUpdateDTO;
 import mundo.org.apilibrary.classes.User;
 
 import mundo.org.apilibrary.entities.Employee;
@@ -21,7 +22,8 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "lastLogin", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    void updateEntity(UserCreationDTO dto, @MappingTarget User user);
+    @Mapping(target = "password", ignore = true)
+    void updateEntity(UserUpdateDTO dto, @MappingTarget User user);
 
     default UserDTO toDto(User user) {
         if (user == null) return null;

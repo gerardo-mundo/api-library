@@ -10,6 +10,7 @@ import mundo.org.apilibrary.services.BookService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class BookController {
         return ResponseEntity.ok(ApiResponse.success(bookDTO, "Book retrieved!"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @PostMapping
     public ResponseEntity<ApiResponse<BookDTO>> createBook(@Valid @RequestBody BookCreationDTO bookCreationDTO) {
         Book bookEntity = bookService.createBook(bookCreationDTO);
@@ -65,6 +67,7 @@ public class BookController {
                 .body(ApiResponse.success(bookDTO, "Book created!"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<BookDTO>> updateBook(@PathVariable UUID id, @Valid @RequestBody BookCreationDTO bookCreationDTO) {
         BookDTO bookDTO = bookService.updateBook(id, bookCreationDTO);
@@ -72,6 +75,7 @@ public class BookController {
         return ResponseEntity.ok(ApiResponse.success(bookDTO, "Book updated!"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<String>> deleteBookById(@PathVariable UUID id) {
         BookDTO bookDTO = bookService.findById(id);
