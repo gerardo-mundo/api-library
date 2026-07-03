@@ -18,7 +18,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class AuthService {
     @Value("${security.jwt.expiration-time}")
-    private static Long EXPIRATION_DATE;
+    private Long EXPIRATION_DATE;
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
