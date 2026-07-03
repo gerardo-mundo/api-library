@@ -10,6 +10,7 @@ import mundo.org.apilibrary.services.ThesisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class ThesisController {
         return ResponseEntity.ok(ApiResponse.success(thesis, "Thesis retrieved successfully"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @PostMapping(path = "/create")
     public ResponseEntity<ApiResponse<ThesisDTO>> createThesis(@RequestBody @Valid ThesisCreationDTO thesisCreationDTO) {
         ThesisDTO thesisCreated = thesisService.createThesis(thesisCreationDTO);
@@ -43,6 +45,7 @@ public class ThesisController {
                 .body(ApiResponse.success(thesisCreated, "Thesis created successfully"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<ApiResponse<ThesisDTO>> updateThesis(@PathVariable UUID id,
                                                                @RequestBody @Valid ThesisCreationDTO thesisCreationDTO) {
@@ -50,6 +53,7 @@ public class ThesisController {
         return ResponseEntity.ok(ApiResponse.success(thesisUpdated, "Thesis updated successfully"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteThesis(@PathVariable UUID id) {
         thesisService.deleteThesis(id);

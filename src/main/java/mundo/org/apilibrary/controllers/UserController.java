@@ -12,6 +12,7 @@ import mundo.org.apilibrary.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,24 +27,28 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserDTO>>> findAllUsers() {
         return ResponseEntity.ok(ApiResponse
                 .success(userService.findAllUsers(), "Users lists retrieved"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @GetMapping("/role/{role}")
     public ResponseEntity<ApiResponse<List<UserDTO>>> findAllUsersByRole(@PathVariable @Valid String role) {
         return ResponseEntity.ok(
                 ApiResponse.success(userService.findUsersByRole(role), "Users roles retrieved"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @GetMapping("/email/{email}")
     public ResponseEntity<ApiResponse<UserDTO>> findUserByEmail(@PathVariable String email) {
         return ResponseEntity.ok(
                 ApiResponse.success(userService.findUserByEmail(email), "User retrieved"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     @GetMapping("/status/{status}")
     public ResponseEntity<ApiResponse<List<UserDTO>>> findUseByStatus(@PathVariable boolean status) {
         return ResponseEntity.ok(ApiResponse
@@ -71,6 +76,7 @@ public class UserController {
                 success(userService.updateUserPassword(passwordDTO, id), "Password updated successfully"));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
