@@ -44,6 +44,6 @@ public class Loan {
     @Column(nullable = false, updatable = false)
     private LocalDateTime borrowDate;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime returnDate;
 }
