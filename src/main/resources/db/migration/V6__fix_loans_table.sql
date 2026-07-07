@@ -1,0 +1,17 @@
+ALTER TABLE loans
+    DROP CONSTRAINT fk_loans_on_approver;
+
+ALTER TABLE loans
+    DROP CONSTRAINT fk_loans_on_borrower;
+
+ALTER TABLE loans
+    ADD CONSTRAINT FK_LOANS_ON_APPROVER FOREIGN KEY (approver_id) REFERENCES employee (id);
+
+ALTER TABLE loans
+    ADD CONSTRAINT FK_LOANS_ON_BORROWER FOREIGN KEY (borrower_id) REFERENCES student (id);
+
+ALTER TABLE loans
+    ALTER COLUMN return_date DROP NOT NULL;
+
+ALTER TABLE loans
+    ALTER COLUMN status TYPE VARCHAR(255) USING (status::VARCHAR(255));
