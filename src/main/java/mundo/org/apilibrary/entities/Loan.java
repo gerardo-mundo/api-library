@@ -34,7 +34,7 @@ public class Loan {
     private List<Book> borrowedBooks;
 
     @Column(nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
