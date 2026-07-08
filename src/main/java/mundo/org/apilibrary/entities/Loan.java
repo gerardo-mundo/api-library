@@ -2,6 +2,11 @@ package mundo.org.apilibrary.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import mundo.org.apilibrary.enums.LoanStatus;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -10,6 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "loans")
 public class Loan {
     @Id
