@@ -80,7 +80,7 @@ public class LoanService {
 
         List<UUID> unavailableBooks = loanRepository.findUnavailableBooks(dto.borrowedBooks());
 
-        if (unavailableBooks.size() != dto.borrowedBooks().size())
+        if (!unavailableBooks.isEmpty())
             throw new IllegalStateException("The next books are unavailable: " + unavailableBooks);
 
         Loan loan = getLoan(approverUser, borrowerUser, borrowedBooks);
