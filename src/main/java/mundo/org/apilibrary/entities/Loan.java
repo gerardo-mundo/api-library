@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import mundo.org.apilibrary.enums.LoanStatus;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,7 +49,7 @@ public class Loan {
     @Enumerated(EnumType.STRING)
     private LoanStatus status;
 
-    @CreationTimestamp
+    @CreationTimestamp(source = SourceType.VM)
     @Column(nullable = false, updatable = false)
     private LocalDateTime borrowDate;
 

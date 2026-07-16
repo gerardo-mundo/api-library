@@ -85,7 +85,7 @@ public class LoanService {
 
         Loan loan = getLoan(approverUser, borrowerUser, borrowedBooks);
 
-        return loanMapper.toDTO(loanRepository.save(loan));
+        return loanMapper.toDTO(loanRepository.saveAndFlush(loan));
     }
 
     @Transactional
