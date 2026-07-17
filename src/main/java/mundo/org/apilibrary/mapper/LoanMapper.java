@@ -24,7 +24,6 @@ public interface LoanMapper {
     @Mapping(target = "borrowDate", ignore = true)
     @Mapping(target = "approver", ignore = true)
     @Mapping(target = "borrower", ignore = true)
-    @Mapping(target = "borrowedBooks", ignore = true)
     void updateEntity(LoanUpdateDTO dto, @MappingTarget Loan loan);
 
     LoanDTO toDTO(Loan loan);
