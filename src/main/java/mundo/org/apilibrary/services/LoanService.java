@@ -48,6 +48,7 @@ public class LoanService {
         loan.setBorrower(borrower);
         loan.setBorrowedBooks(borrowedBooks);
         loan.setStatus(LoanStatus.APPROVED);
+        loan.setActive(true);
         return loan;
     }
 

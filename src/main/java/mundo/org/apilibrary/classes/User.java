@@ -12,7 +12,6 @@ import mundo.org.apilibrary.entities.Employee;
 import mundo.org.apilibrary.entities.Student;
 import mundo.org.apilibrary.enums.Role;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
 
 import java.time.LocalDateTime;
@@ -51,6 +50,6 @@ public abstract class User {
     @CreationTimestamp(source = SourceType.VM)
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-    @CurrentTimestamp(source = SourceType.VM)
+    @Column
     private LocalDateTime lastLogin;
 }

@@ -12,10 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class AuthService {
     @Value("${security.jwt.expiration-time}")
     private Long EXPIRATION_DATE;
@@ -39,7 +41,12 @@ public class AuthService {
             throw new IllegalArgumentException("Wrong email or password");
 
         String userToken = jwtService.generateToken(user.get());
-        return new AuthResponseDTO(userToken, EXPIRATION_DATE);
+        LocalDateTime now = LocalDateTime.now();
+        String lastLogin = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        user.get().setLastLogin(now);
+        userRepository.saveAndFlush(user.get());
+        return new AuthResponseDTO(userToken, EXPIRATION_DATE, lastLogin);
     }
 
     private boolean areValidUserCredentials(Optional<User> user, UserCredentialsDTO credentials) {

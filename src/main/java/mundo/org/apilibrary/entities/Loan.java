@@ -39,7 +39,7 @@ public class Loan {
             joinColumns = @JoinColumn(name = "loan_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    @Size(min = 1, max = 4, message = "You should add at least one book")
+    @Size(min = 1, max = 3, message = "You should add at least one book")
     private List<Book> borrowedBooks;
 
     @Column(nullable = false)
