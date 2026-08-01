@@ -68,7 +68,7 @@ public class PublicationService {
 
     @Transactional
     public void deletePublication(UUID id) {
-        if (publicationRepository.existsById(id))
+        if (!publicationRepository.existsById(id))
             throw new EntityNotFoundException("Publication with ID: " + id + " not found");
 
         publicationRepository.deleteById(id);
