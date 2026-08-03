@@ -29,16 +29,14 @@ public class LoanController {
         return ResponseEntity.ok(ApiResponse.success(loanService.loanDTOList(), "Loan list retrieve"));
     }
 
-    @GetMapping
-    @RequestMapping("/approver/{id}")
+    @GetMapping("/approver/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     public ResponseEntity<ApiResponse<List<LoanDTO>>> getLoansByApprover(@PathVariable @Valid UUID id) {
         return ResponseEntity
                 .ok(ApiResponse.success(loanService.findByApprover(id), "Loan approvers list retrieve"));
     }
 
-    @GetMapping
-    @RequestMapping("/borrower/{id}")
+    @GetMapping("/borrower/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     public ResponseEntity<ApiResponse<List<LoanDTO>>> getLoansByBorrower(@PathVariable @Valid UUID id) {
         return ResponseEntity
@@ -53,8 +51,7 @@ public class LoanController {
                 .body(ApiResponse.success(loanService.createLoan(loanDTO), "Loan created successfully"));
     }
 
-    @PutMapping
-    @RequestMapping("/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
     public ResponseEntity<ApiResponse<LoanDTO>> updateLoan(@PathVariable @Valid UUID id,
                                                            @RequestBody @Valid LoanUpdateDTO loanDTO) {
