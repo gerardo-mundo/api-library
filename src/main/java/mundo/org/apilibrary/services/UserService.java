@@ -54,8 +54,6 @@ public class UserService {
         return userRepository.findByIsActive(isActive).stream().map(userMapper::toDto).toList();
     }
 
-    //TODO: When a value for roles is present in a different way than ROLE_ROLE-NAME the application crashes without a correct error message.
-    // Fix how the user role is receive and parse it for a better handling process
     @Transactional
     public UserDTO createUser(@NotNull(message = "A body is required") UserCreationDTO creationDTO) {
         if (userRepository.findByEmail(creationDTO.email()).isPresent()) throw new
