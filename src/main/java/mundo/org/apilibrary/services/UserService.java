@@ -86,7 +86,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO updateUserRola(UUID id, Role role) {
+    public UserDTO updateUserRole(UUID id, Role role) {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty())
