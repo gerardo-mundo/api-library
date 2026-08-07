@@ -9,6 +9,8 @@ import mundo.org.apilibrary.entities.Book;
 import mundo.org.apilibrary.mapper.BookMapper;
 import mundo.org.apilibrary.repository.BookRepository;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +27,13 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+    @Cacheable(value = "books", key = "'allBooks'")
     public List<BookDTO> findAllBooks() {
         List<Book> books = bookRepository.findAll();
         return this.bookMapper.toListDto(books);
     }
 
+    @Cacheable(value = "books", key = "#id")
     public BookDTO findById(UUID id) {
         return this.bookMapper.toDto(bookRepository.findById(id).orElse(null));
     }
@@ -39,6 +43,7 @@ public class BookService {
     }
 
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public Book createBook(BookCreationDTO dto) {
         if(bookRepository.existsByIsbn(dto.isbn())) {
             throw new EntityExistsException("Book with ISBN " + dto.isbn() + " already exists");
@@ -49,6 +54,7 @@ public class BookService {
     }
 
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public BookDTO updateBook(UUID id, BookCreationDTO dto) {
         Book bookToUpdate = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book with ID " + id + " not found"));
@@ -68,6 +74,7 @@ public class BookService {
     }
 
     @Transactional
+    @CacheEvict(value = "books", allEntries = true)
     public void deleteBook(UUID id) {
         var book = bookRepository.findById(id);
 
