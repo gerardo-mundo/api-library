@@ -9,6 +9,8 @@ import mundo.org.apilibrary.classes.Publication;
 import mundo.org.apilibrary.mapper.PublicationMapper;
 import mundo.org.apilibrary.repository.PublicationRepository;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class PublicationService {
         this.publicationMapper = publicationMapper;
     }
 
+    @Cacheable(value = "publications", key = "'allPublications'")
     public List<PublicationDTO> findAllPublications() {
         List<Publication> publicationList = publicationRepository.findAll();
 
@@ -35,11 +38,13 @@ public class PublicationService {
         return publicationMapper.toDTOList(publicationList);
     }
 
+    @Cacheable(value = "publications", key = "#publisher")
     public List<PublicationDTO> findByPublisher(String publisher) {
         return publicationRepository.getAllByPublisherIgnoreCase(publisher)
                 .stream().map(publicationMapper::toDTO).sorted(Comparator.comparing(PublicationDTO::title)).toList();
     }
 
+    @Cacheable(value = "publications", key = "#issn")
     public PublicationDTO getPublicationByIssn(String issn) {
         return publicationRepository.findPublicationByIssn(issn)
                 .map(publicationMapper::toDTO)
@@ -47,6 +52,7 @@ public class PublicationService {
     }
 
     @Transactional
+    @CacheEvict(value = "publications", allEntries = true)
     public PublicationDTO createPublication(PublicationCreationDTO dto) {
         if (publicationRepository.existsByIssn(dto.issn()))
             throw new EntityExistsException("Publication with ISSN: " + dto.issn() + " already exists");
@@ -55,6 +61,7 @@ public class PublicationService {
     }
 
     @Transactional
+    @CacheEvict(value = "publications", allEntries = true)
     public PublicationDTO updatePublication(PublicationCreationDTO publicationDTO, UUID id) {
         Publication entity = publicationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Publication doesn't exists"));
@@ -67,6 +74,7 @@ public class PublicationService {
     }
 
     @Transactional
+    @CacheEvict(value = "publications", allEntries = true)
     public void deletePublication(UUID id) {
         if (!publicationRepository.existsById(id))
             throw new EntityNotFoundException("Publication with ID: " + id + " not found");
