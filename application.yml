@@ -1,8 +1,12 @@
 spring:
   application:
     name: api-library
+  redis:
+    host: localhost
+    port: 6379
+  cache:
+    type: redis
 
-# Custom properties
 security:
   jwt:
     secret-key: ${JWT_SECRET:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}

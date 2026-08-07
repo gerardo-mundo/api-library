@@ -9,6 +9,8 @@ import mundo.org.apilibrary.entities.Thesis;
 import mundo.org.apilibrary.mapper.ThesisMapper;
 import mundo.org.apilibrary.repository.ThesisRepository;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class ThesisService {
         this.thesisMapper = mapper;
     }
 
+    @Cacheable(value = "thesis", key = "'allThesis'")
     public List<ThesisDTO> findAll() {
         List<Thesis> thesisList = thesisRepository.findAll();
 
@@ -35,6 +38,7 @@ public class ThesisService {
         return thesisMapper.toListDto(thesisList);
     }
 
+    @Cacheable(value = "thesis", key = "#id")
     public ThesisDTO findById(UUID id) {
         Thesis thesis = thesisRepository.findById(id).orElse(null);
 
@@ -58,6 +62,7 @@ public class ThesisService {
     }
 
     @Transactional
+    @CacheEvict(value = "thesis", allEntries = true)
     public ThesisDTO createThesis(ThesisCreationDTO thesisDto) {
         Thesis entity = thesisMapper.toEntity(thesisDto);
         Thesis thesis = thesisRepository.save(entity);
@@ -66,6 +71,7 @@ public class ThesisService {
     }
 
     @Transactional
+    @CacheEvict(value = "thesis", allEntries = true)
     public ThesisDTO updateThesis(UUID id, ThesisCreationDTO thesisDto) {
         Thesis thesis = thesisRepository.findById(id).orElse(null);
 
@@ -78,6 +84,7 @@ public class ThesisService {
     }
 
     @Transactional
+    @CacheEvict(value = "thesis", allEntries = true)
     public void deleteThesis(UUID id) {
         Thesis thesis = thesisRepository.findById(id).orElse(null);
 

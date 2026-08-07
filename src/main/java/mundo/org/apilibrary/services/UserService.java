@@ -11,6 +11,8 @@ import mundo.org.apilibrary.classes.User;
 import mundo.org.apilibrary.enums.Role;
 import mundo.org.apilibrary.mapper.UserMapper;
 import mundo.org.apilibrary.repository.UserRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Cacheable(value = "users", key = "'allUsers'")
     public List<UserDTO> findAllUsers() {
         List<User> users = userRepository.findAll();
 
@@ -40,6 +43,7 @@ public class UserService {
         return userMapper.toListDto(users);
     }
 
+    @Cacheable(value = "users", key = "#email")
     public UserDTO findUserByEmail(String email) {
         return userRepository.findByEmail(email).map(userMapper::toDto).orElseThrow(
                 () -> new EntityNotFoundException("User with email: " + email + " not found"));
@@ -55,6 +59,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public UserDTO createUser(@NotNull(message = "A body is required") UserCreationDTO creationDTO) {
         if (userRepository.findByEmail(creationDTO.email()).isPresent()) throw new
                 EntityExistsException("User with email: " + creationDTO.email() + " already exists");
@@ -65,6 +70,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public UserDTO updateUser(UserUpdateDTO creationDTO, UUID id) {
         User existingUser = userRepository.findById(id).orElseThrow(()
                 -> new EntityNotFoundException("User with id: " + id + " not found"));
@@ -77,6 +83,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public UserDTO updateUserPassword(@NotNull(message = "A body is required") UserUpdatePasswordDTO dto, UUID id) {
         User existingUser = userRepository.findById(id).orElseThrow(()
                 -> new EntityNotFoundException("User with id: " + id + " not found"));
@@ -86,6 +93,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public UserDTO updateUserRole(UUID id, Role role) {
         Optional<User> user = userRepository.findById(id);
 
@@ -97,6 +105,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(UUID id) {
         if (!userRepository.existsById(id))
             throw new EntityNotFoundException("User with ID: " + id + " not found");
