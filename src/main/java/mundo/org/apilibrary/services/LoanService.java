@@ -16,6 +16,8 @@ import mundo.org.apilibrary.repository.BookRepository;
 import mundo.org.apilibrary.repository.LoanRepository;
 import mundo.org.apilibrary.repository.UserRepository;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +54,7 @@ public class LoanService {
         return loan;
     }
 
+    @Cacheable(value = "loans", key = "'allLoans'")
     public List<LoanDTO> loanDTOList() {
         List<Loan> loans = loanRepository.findAll();
 
@@ -60,15 +63,18 @@ public class LoanService {
         return loanMapper.toListDTO(loans);
     }
 
+    @Cacheable(value = "loans", key = "#id")
     public List<LoanDTO> findByApprover(UUID id) {
         return loanMapper.toListDTO(loanRepository.findAllByApproverId(id).stream().toList());
     }
 
+    @Cacheable(value = "loans", key = "#id")
     public List<LoanDTO> findByBorrower(UUID id) {
         return loanMapper.toListDTO(loanRepository.findAllByBorrowerId(id).stream().toList());
     }
 
     @Transactional
+    @CacheEvict(value = "loans", allEntries = true)
     public LoanDTO createLoan(LoanCreationDTO dto) {
         User approverUser = userRepository.findById(dto.approver())
                 .orElseThrow(() -> new EntityNotFoundException("Borrower with ID: " + dto.approver() + " not found"));
@@ -90,6 +96,7 @@ public class LoanService {
     }
 
     @Transactional
+    @CacheEvict(value = "loans", allEntries = true)
     public LoanDTO updateLoan(UUID id, LoanUpdateDTO dto) {
         Loan loanExists = loanRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Loan with ID: " + id + " not found"));
