@@ -1,4 +1,4 @@
-package mundo.org.apilibrary.controllers;
+package mundo.org.apilibrary.controllers.v1;
 
 import jakarta.validation.Valid;
 
