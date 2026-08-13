@@ -2,35 +2,47 @@ package mundo.org.apilibrary.services;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-
 import mundo.org.apilibrary.DTO.books.BookCreationDTO;
 import mundo.org.apilibrary.DTO.books.BookDTO;
 import mundo.org.apilibrary.entities.Book;
+import mundo.org.apilibrary.interfaces.SpecificationFilter;
 import mundo.org.apilibrary.mapper.BookMapper;
 import mundo.org.apilibrary.repository.BookRepository;
-
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final SpecificationFilter<Book> specificationFilter;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, SpecificationFilter<Book> specificationFilter) {
         this.bookMapper = bookMapper;
         this.bookRepository = bookRepository;
+        this.specificationFilter = specificationFilter;
     }
 
     @Cacheable(value = "books", key = "'allBooks'")
     public List<BookDTO> findAllBooks() {
         List<Book> books = bookRepository.findAll();
         return this.bookMapper.toListDto(books);
+    }
+
+    public Page<BookDTO> findAllPageableBooks(Map<String, String> filters, Pageable pageable) {
+        List<String> allowedTerms = List.of("title", "author", "publisher");
+
+        Specification<Book> spec = specificationFilter.buildSpecification(filters, allowedTerms);
+        return bookRepository.findAll(spec, pageable).map(bookMapper::toDto);
     }
 
     @Cacheable(value = "books", key = "#id")
