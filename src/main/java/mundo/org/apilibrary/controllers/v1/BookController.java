@@ -7,13 +7,16 @@ import mundo.org.apilibrary.entities.Book;
 import mundo.org.apilibrary.mapper.BookMapper;
 import mundo.org.apilibrary.payload.ApiResponse;
 import mundo.org.apilibrary.services.BookService;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -35,6 +38,14 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
         return ResponseEntity.ok(ApiResponse.success(booksDTO, "List of books retrieved!"));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<BookDTO>>> listBooksBySearch(
+            @RequestParam Map<String, String> params,
+            @PageableDefault(size = 12, sort = "title") Pageable pageable) {
+        return ResponseEntity.ok(ApiResponse
+                .success(bookService.findAllPageableBooks(params, pageable), "Books retrieved successfully"));
     }
 
     @GetMapping("{id}")
