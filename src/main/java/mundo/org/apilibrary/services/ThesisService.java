@@ -2,29 +2,35 @@ package mundo.org.apilibrary.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
 import mundo.org.apilibrary.DTO.thesis.ThesisCreationDTO;
 import mundo.org.apilibrary.DTO.thesis.ThesisDTO;
 import mundo.org.apilibrary.entities.Thesis;
+import mundo.org.apilibrary.filters.SpecificationFilters;
 import mundo.org.apilibrary.mapper.ThesisMapper;
 import mundo.org.apilibrary.repository.ThesisRepository;
-
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class ThesisService {
     private final ThesisRepository thesisRepository;
     private final ThesisMapper thesisMapper;
+    private final SpecificationFilters<Thesis> specificationFilters;
 
-    public ThesisService(ThesisRepository thesisRepository, ThesisMapper mapper) {
+    public ThesisService(ThesisRepository thesisRepository, ThesisMapper mapper,
+                         SpecificationFilters<Thesis> specificationFilters) {
         this.thesisRepository = thesisRepository;
         this.thesisMapper = mapper;
+        this.specificationFilters = specificationFilters;
     }
 
     @Cacheable(value = "thesis", key = "'allThesis'")
@@ -36,6 +42,13 @@ public class ThesisService {
         }
 
         return thesisMapper.toListDto(thesisList);
+    }
+
+    public Page<ThesisDTO> findAllThesis(Map<String, String> filters, Pageable pageable) {
+        List<String> allowedTerms = List.of("author", "bachelorDegree", "thesisAdvisor");
+
+        Specification<Thesis> spec = specificationFilters.buildSpecification(filters, allowedTerms);
+        return thesisRepository.findAll(spec, pageable).map(thesisMapper::toDto);
     }
 
     @Cacheable(value = "thesis", key = "#id")
