@@ -30,7 +30,8 @@ public class PublicationService {
     private final PublicationMapper publicationMapper;
     private final SpecificationFilters<Publication> specificationFilters;
 
-    public PublicationService(PublicationRepository publicationRepository, PublicationMapper publicationMapper, SpecificationFilters specificationFilters) {
+    public PublicationService(PublicationRepository publicationRepository, PublicationMapper publicationMapper,
+                              SpecificationFilters<Publication> specificationFilters) {
         this.publicationRepository = publicationRepository;
         this.publicationMapper = publicationMapper;
         this.specificationFilters = specificationFilters;
