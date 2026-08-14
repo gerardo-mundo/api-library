@@ -2,23 +2,27 @@ package mundo.org.apilibrary.services;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-
 import mundo.org.apilibrary.DTO.publications.PublicationCreationDTO;
 import mundo.org.apilibrary.DTO.publications.PublicationDTO;
 import mundo.org.apilibrary.classes.Publication;
 import mundo.org.apilibrary.enums.PublicationType;
+import mundo.org.apilibrary.filters.SpecificationFilters;
 import mundo.org.apilibrary.mapper.PublicationMapper;
 import mundo.org.apilibrary.repository.PublicationRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,6 +35,8 @@ public class PublicationServiceTest {
     private PublicationRepository publicationRepository;
     @Mock
     private PublicationMapper publicationMapper;
+    @Mock
+    SpecificationFilters<Publication> specificationFilters;
 
     @InjectMocks
     private PublicationService publicationService;
@@ -50,7 +56,7 @@ public class PublicationServiceTest {
 
         publicationDTO = new PublicationDTO(
                 publicationId,
-                null,
+                "Publication Test Filters",
                 null,
                 null,
                 null,
@@ -213,4 +219,32 @@ public class PublicationServiceTest {
         verify(publicationRepository, times(1)).existsById(publicationId);
         verify(publicationRepository, never()).deleteById(publicationId);
     }
+
+    @Test
+    void findPublications_shouldReturnPageDto_whenSuccess() {
+        Map<String, String> filters = Map.of("author", "Fernanda");
+        List<String> allowedExpectedTerms = List.of("title", "author", "publisher", "issn");
+        Pageable pageable = PageRequest.of(0, 10);
+
+        publicationMock.setId(publicationId);
+        publicationMock.setTitle("Publication Test Filters");
+        Page<Publication> page = new PageImpl<>(List.of(publicationMock));
+
+        @SuppressWarnings("unchecked")
+        Specification<Publication> mockSpec = mock(Specification.class);
+
+        when(specificationFilters.buildSpecification(filters, allowedExpectedTerms)).thenReturn(mockSpec);
+        when(publicationRepository.findAll(eq(mockSpec), eq(pageable))).thenReturn(page);
+        when(publicationMapper.toDTO(any(Publication.class))).thenReturn(publicationDTO);
+
+        Page<PublicationDTO> result = publicationService.findPublications(filters, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Publication Test Filters", result.getContent().get(0).title());
+
+        verify(specificationFilters, times(1)).buildSpecification(filters, allowedExpectedTerms);
+        verify(publicationRepository, times(1)).findAll(mockSpec, pageable);
+    }
+
 }
