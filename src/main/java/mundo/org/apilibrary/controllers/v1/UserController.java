@@ -1,21 +1,22 @@
 package mundo.org.apilibrary.controllers.v1;
 
 import jakarta.validation.Valid;
-
 import mundo.org.apilibrary.DTO.users.UserCreationDTO;
 import mundo.org.apilibrary.DTO.users.UserDTO;
 import mundo.org.apilibrary.DTO.users.UserUpdateDTO;
 import mundo.org.apilibrary.DTO.users.UserUpdatePasswordDTO;
 import mundo.org.apilibrary.payload.ApiResponse;
 import mundo.org.apilibrary.services.UserService;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -32,6 +33,15 @@ public class UserController {
     public ResponseEntity<ApiResponse<List<UserDTO>>> findAllUsers() {
         return ResponseEntity.ok(ApiResponse
                 .success(userService.findAllUsers(), "Users lists retrieved"));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<UserDTO>>> findAllPageableUsers(
+            @RequestParam Map<String, String> params,
+            @PageableDefault(size = 12, sort = "name") Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(userService.findUsers(params, pageable), "Users lists retrieved"));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
