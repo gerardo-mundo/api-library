@@ -1,19 +1,20 @@
 package mundo.org.apilibrary.controllers.v1;
 
 import jakarta.validation.Valid;
-
 import mundo.org.apilibrary.DTO.thesis.ThesisCreationDTO;
 import mundo.org.apilibrary.DTO.thesis.ThesisDTO;
 import mundo.org.apilibrary.payload.ApiResponse;
+import mundo.org.apilibrary.payload.PaginatedResponse;
 import mundo.org.apilibrary.services.ThesisService;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController()
@@ -29,6 +30,15 @@ public class ThesisController {
     public ResponseEntity<ApiResponse<List<ThesisDTO>>> getAllThesis() {
         List<ThesisDTO> thesisList = thesisService.findAll();
         return ResponseEntity.ok(ApiResponse.success(thesisList, "List of thesis retrieved successfully"));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<PaginatedResponse<ThesisDTO>>> listThesisBySearch(
+            @RequestParam Map<String, String> params,
+            @PageableDefault(size = 12, sort = "title") Pageable pageable) {
+        return ResponseEntity.ok(ApiResponse.success(
+                new PaginatedResponse<>(thesisService.findAllThesis(params, pageable)),
+                "Thesis retrieved successfully"));
     }
 
     @GetMapping("{id}")

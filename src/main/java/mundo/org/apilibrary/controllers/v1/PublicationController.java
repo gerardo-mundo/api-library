@@ -1,19 +1,20 @@
 package mundo.org.apilibrary.controllers.v1;
 
 import jakarta.validation.Valid;
-
 import mundo.org.apilibrary.DTO.publications.PublicationCreationDTO;
 import mundo.org.apilibrary.DTO.publications.PublicationDTO;
 import mundo.org.apilibrary.payload.ApiResponse;
+import mundo.org.apilibrary.payload.PaginatedResponse;
 import mundo.org.apilibrary.services.PublicationService;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -34,6 +35,16 @@ public class PublicationController {
                         "List retrieved"
                 )
         );
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<PaginatedResponse<PublicationDTO>>> findAllPublicationsPageable(
+            @RequestParam Map<String, String> params,
+            @PageableDefault(size = 12, sort = "title") Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        new PaginatedResponse<>(publicationService.findPublications(params, pageable)),
+                        "Publications retrieve successfully"));
     }
 
     @GetMapping("/issn/{issn}")

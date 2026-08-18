@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import mundo.org.apilibrary.DTO.books.BookCreationDTO;
 import mundo.org.apilibrary.DTO.books.BookDTO;
 import mundo.org.apilibrary.entities.Book;
+import mundo.org.apilibrary.interfaces.SpecificationFilter;
 import mundo.org.apilibrary.mapper.BookMapper;
 import mundo.org.apilibrary.repository.BookRepository;
 
@@ -16,8 +17,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +37,8 @@ public class BookServiceTest {
     private BookRepository bookRepository;
     @Mock
     private BookMapper bookMapper;
+    @Mock
+    SpecificationFilter<Book> specificationFilter;
     @InjectMocks
     private BookService bookService;
 
@@ -62,9 +71,9 @@ public class BookServiceTest {
 
         bookDTO = new BookDTO(
                 bookId,
-                null,
-                null,
-                null,
+                "Spring Boot in Action",
+                "Author",
+                "Publisher",
                 null,
                 acquisition,
                 isbn,
@@ -144,6 +153,33 @@ public class BookServiceTest {
         bookService.deleteBook(bookId);
 
         verify(bookRepository, times(1)).deleteById(bookId);
+    }
+
+    @Test
+    void findAllBooks_WithFilters_ShouldReturnPaginatedDTOs() {
+        Map<String, String> filters = Map.of("title", "Spring Boot");
+        Pageable pageable = PageRequest.of(0, 10);
+        List<String> expectedAllowedTerms = List.of("title", "author", "publisher");
+
+        book.setId(UUID.randomUUID());
+        book.setTitle("Spring Boot in Action");
+        Page<Book> bookPage = new PageImpl<>(List.of(book));
+
+        @SuppressWarnings("unchecked")
+        Specification<Book> mockSpec = mock(Specification.class);
+
+        when(specificationFilter.buildSpecification(eq(filters), eq(expectedAllowedTerms))).thenReturn(mockSpec);
+        when(bookRepository.findAll(eq(mockSpec), eq(pageable))).thenReturn(bookPage);
+        when(bookMapper.toDto(any(Book.class))).thenReturn(bookDTO);
+
+        Page<BookDTO> result = bookService.findAllPageableBooks(filters, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Spring Boot in Action", result.getContent().get(0).title());
+
+        verify(specificationFilter, times(1)).buildSpecification(filters, expectedAllowedTerms);
+        verify(bookRepository, times(1)).findAll(mockSpec, pageable);
     }
 
 }

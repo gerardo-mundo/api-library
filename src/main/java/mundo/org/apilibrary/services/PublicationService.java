@@ -6,16 +6,21 @@ import jakarta.persistence.EntityNotFoundException;
 import mundo.org.apilibrary.DTO.publications.PublicationCreationDTO;
 import mundo.org.apilibrary.DTO.publications.PublicationDTO;
 import mundo.org.apilibrary.classes.Publication;
+import mundo.org.apilibrary.filters.SpecificationFilters;
 import mundo.org.apilibrary.mapper.PublicationMapper;
 import mundo.org.apilibrary.repository.PublicationRepository;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -23,10 +28,13 @@ import java.util.UUID;
 public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final PublicationMapper publicationMapper;
+    private final SpecificationFilters<Publication> specificationFilters;
 
-    public PublicationService(PublicationRepository publicationRepository, PublicationMapper publicationMapper) {
+    public PublicationService(PublicationRepository publicationRepository, PublicationMapper publicationMapper,
+                              SpecificationFilters<Publication> specificationFilters) {
         this.publicationRepository = publicationRepository;
         this.publicationMapper = publicationMapper;
+        this.specificationFilters = specificationFilters;
     }
 
     @Cacheable(value = "publications", key = "'allPublications'")
@@ -42,6 +50,12 @@ public class PublicationService {
     public List<PublicationDTO> findByPublisher(String publisher) {
         return publicationRepository.getAllByPublisherIgnoreCase(publisher)
                 .stream().map(publicationMapper::toDTO).sorted(Comparator.comparing(PublicationDTO::title)).toList();
+    }
+
+    public Page<PublicationDTO> findPublications(Map<String, String> filters, Pageable pageable) {
+        List<String> allowedTerms = List.of("title", "author", "publisher", "issn");
+        Specification<Publication> spec = specificationFilters.buildSpecification(filters, allowedTerms);
+        return publicationRepository.findAll(spec, pageable).map(publicationMapper::toDTO);
     }
 
     @Cacheable(value = "publications", key = "#issn")

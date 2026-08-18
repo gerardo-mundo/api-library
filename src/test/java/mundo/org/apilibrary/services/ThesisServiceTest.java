@@ -1,22 +1,26 @@
 package mundo.org.apilibrary.services;
 
 import jakarta.persistence.EntityNotFoundException;
-
 import mundo.org.apilibrary.DTO.thesis.ThesisCreationDTO;
 import mundo.org.apilibrary.DTO.thesis.ThesisDTO;
 import mundo.org.apilibrary.entities.Thesis;
+import mundo.org.apilibrary.filters.SpecificationFilters;
 import mundo.org.apilibrary.mapper.ThesisMapper;
 import mundo.org.apilibrary.repository.ThesisRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +34,8 @@ public class ThesisServiceTest {
     private ThesisRepository thesisRepository;
     @Mock
     private ThesisMapper thesisMapper;
+    @Mock
+    private SpecificationFilters<Thesis> specificationFilter;
 
     @InjectMocks
     private ThesisService thesisService;
@@ -47,7 +53,7 @@ public class ThesisServiceTest {
         thesisDTO = new ThesisDTO(
                 thesisId,
                 null,
-                null,
+                "Fernanda Arguello",
                 null,
                 null,
                 null,
@@ -156,5 +162,32 @@ public class ThesisServiceTest {
         assertEquals("Thesis with ID: " + thesisId + " not found", exception.getMessage());
         verify(thesisRepository, times(1)).findById(thesisId);
         verify(thesisRepository, never()).deleteById(thesisId);
+    }
+
+    @Test
+    void findAllBooks_shouldReturnPageDto_whenSuccess() {
+        Map<String, String> filters = Map.of("author", "Fernanda");
+        List<String> allowedExpectedTerms = List.of("author", "bachelorDegree", "thesisAdvisor");
+        Pageable pageable = PageRequest.of(0, 10);
+
+        thesis.setId(thesisId);
+        thesis.setAuthor("Fernanda Arguello");
+        Page<Thesis> page = new PageImpl<>(List.of(thesis));
+
+        @SuppressWarnings("unchecked")
+        Specification<Thesis> mockSpec = mock(Specification.class);
+
+        when(specificationFilter.buildSpecification(filters, allowedExpectedTerms)).thenReturn(mockSpec);
+        when(thesisRepository.findAll(eq(mockSpec), eq(pageable))).thenReturn(page);
+        when(thesisMapper.toDto(any(Thesis.class))).thenReturn(thesisDTO);
+
+        Page<ThesisDTO> result = thesisService.findAllThesis(filters, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Fernanda Arguello", result.getContent().get(0).author());
+
+        verify(specificationFilter, times(1)).buildSpecification(filters, allowedExpectedTerms);
+        verify(thesisRepository, times(1)).findAll(mockSpec, pageable);
     }
 }

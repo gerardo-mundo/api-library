@@ -9,15 +9,20 @@ import mundo.org.apilibrary.DTO.users.UserUpdateDTO;
 import mundo.org.apilibrary.DTO.users.UserUpdatePasswordDTO;
 import mundo.org.apilibrary.classes.User;
 import mundo.org.apilibrary.enums.Role;
+import mundo.org.apilibrary.filters.SpecificationFilters;
 import mundo.org.apilibrary.mapper.UserMapper;
 import mundo.org.apilibrary.repository.UserRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,11 +32,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final SpecificationFilters<User> specificationFilters;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder,
+                       SpecificationFilters<User> specificationFilters) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.specificationFilters = specificationFilters;
     }
 
     @Cacheable(value = "users", key = "'allUsers'")
@@ -41,6 +49,12 @@ public class UserService {
         if (users.isEmpty()) throw new EntityNotFoundException("List of users not found");
 
         return userMapper.toListDto(users);
+    }
+
+    public Page<UserDTO> findUsers(Map<String, String> filters, Pageable pageable) {
+        List<String> allowedTerms = List.of("name", "email");
+        Specification<User> spec = specificationFilters.buildSpecification(filters, allowedTerms);
+        return userRepository.findAll(spec, pageable).map(userMapper::toDto);
     }
 
     @Cacheable(value = "users", key = "#email")

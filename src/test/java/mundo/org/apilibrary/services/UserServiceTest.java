@@ -10,6 +10,7 @@ import mundo.org.apilibrary.classes.User;
 import mundo.org.apilibrary.entities.Employee;
 import mundo.org.apilibrary.entities.Student;
 import mundo.org.apilibrary.enums.Role;
+import mundo.org.apilibrary.filters.SpecificationFilters;
 import mundo.org.apilibrary.mapper.UserMapper;
 import mundo.org.apilibrary.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +19,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +42,8 @@ public class UserServiceTest {
     private UserMapper userMapper;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private SpecificationFilters<User> specificationFilters;
 
     @InjectMocks
     private UserService userService;
@@ -78,7 +87,7 @@ public class UserServiceTest {
         );
         userDTO = new UserDTO(
                 userId,
-                null,
+                "Admin Test",
                 email,
                 true,
                 null,
@@ -224,4 +233,32 @@ public class UserServiceTest {
 
         verify(userRepository, times(1)).deleteById(userId);
     }
+
+    @Test
+    void findAllUsers_shouldReturnPageDto_whenSuccess() {
+        Map<String, String> filters = Map.of("name", "Admin");
+        List<String> allowedExpectedTerms = List.of("name", "email");
+        Pageable pageable = PageRequest.of(0, 10);
+
+        mockUser.setId(userId);
+        mockUser.setName("Admin");
+        Page<User> page = new PageImpl<>(List.of(mockUser));
+
+        @SuppressWarnings("unchecked")
+        Specification<User> mockSpec = mock(Specification.class);
+
+        when(specificationFilters.buildSpecification(filters, allowedExpectedTerms)).thenReturn(mockSpec);
+        when(userRepository.findAll(eq(mockSpec), eq(pageable))).thenReturn(page);
+        when(userMapper.toDto(any(User.class))).thenReturn(userDTO);
+
+        Page<UserDTO> result = userService.findUsers(filters, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Admin Test", result.getContent().get(0).name());
+
+        verify(specificationFilters, times(1)).buildSpecification(filters, allowedExpectedTerms);
+        verify(userRepository, times(1)).findAll(mockSpec, pageable);
+    }
+
 }
