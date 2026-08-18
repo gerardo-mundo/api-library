@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import mundo.org.apilibrary.DTO.thesis.ThesisCreationDTO;
 import mundo.org.apilibrary.DTO.thesis.ThesisDTO;
 import mundo.org.apilibrary.payload.ApiResponse;
+import mundo.org.apilibrary.payload.PaginatedResponse;
 import mundo.org.apilibrary.services.ThesisService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -33,11 +33,12 @@ public class ThesisController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<Page<ThesisDTO>>> listThesisBySearch(
+    public ResponseEntity<ApiResponse<PaginatedResponse<ThesisDTO>>> listThesisBySearch(
             @RequestParam Map<String, String> params,
             @PageableDefault(size = 12, sort = "title") Pageable pageable) {
-        return ResponseEntity.ok(ApiResponse
-                .success(thesisService.findAllThesis(params, pageable), "Thesis retrieved successfully"));
+        return ResponseEntity.ok(ApiResponse.success(
+                new PaginatedResponse<>(thesisService.findAllThesis(params, pageable)),
+                "Thesis retrieved successfully"));
     }
 
     @GetMapping("{id}")

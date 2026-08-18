@@ -40,8 +40,9 @@ public class UserController {
     public ResponseEntity<ApiResponse<Page<UserDTO>>> findAllPageableUsers(
             @RequestParam Map<String, String> params,
             @PageableDefault(size = 12, sort = "name") Pageable pageable) {
-        return ResponseEntity.ok(
-                ApiResponse.success(userService.findUsers(params, pageable), "Users lists retrieved"));
+        return ResponseEntity.ok(ApiResponse.success(
+                userService.findUsers(params, pageable),
+                "Users lists retrieved"));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")

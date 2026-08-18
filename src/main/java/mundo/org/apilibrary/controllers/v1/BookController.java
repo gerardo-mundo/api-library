@@ -6,8 +6,8 @@ import mundo.org.apilibrary.DTO.books.BookDTO;
 import mundo.org.apilibrary.entities.Book;
 import mundo.org.apilibrary.mapper.BookMapper;
 import mundo.org.apilibrary.payload.ApiResponse;
+import mundo.org.apilibrary.payload.PaginatedResponse;
 import mundo.org.apilibrary.services.BookService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -41,11 +41,12 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<Page<BookDTO>>> listBooksBySearch(
+    public ResponseEntity<ApiResponse<PaginatedResponse<BookDTO>>> listBooksBySearch(
             @RequestParam Map<String, String> params,
             @PageableDefault(size = 12, sort = "title") Pageable pageable) {
-        return ResponseEntity.ok(ApiResponse
-                .success(bookService.findAllPageableBooks(params, pageable), "Books retrieved successfully"));
+        return ResponseEntity.ok(ApiResponse.success(
+                new PaginatedResponse<>(bookService.findAllPageableBooks(params, pageable)),
+                "List of books retrieved successfully"));
     }
 
     @GetMapping("{id}")
