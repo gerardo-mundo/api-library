@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library_db
+    username: user_admin
+    password: librarypassword
+
+  redis:
+    host: localhost
+    port: 6379
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRET:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

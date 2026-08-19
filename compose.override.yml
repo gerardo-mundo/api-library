@@ -1,0 +1,12 @@
+services:
+  db:
+    environment:
+      POSTGRES_DB: library_db
+      POSTGRES_USER: user_admin
+      POSTGRES_PASSWORD: librarypassword
+    ports:
+      - "5432:5432"
+
+  redis:
+    ports:
+      - "6379:6379"
