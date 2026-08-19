@@ -1,13 +1,13 @@
 spring:
   application:
     name: api-library
-  redis:
-    host: localhost
-    port: 6379
+  flyway:
+    enabled: false
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   cache:
     type: redis
 
 security:
   jwt:
-    secret-key: ${JWT_SECRET:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}
     expiration-time: 86400000
