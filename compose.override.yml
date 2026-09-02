@@ -18,8 +18,12 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DB_HOST: db
-      REDIS_HOST: redis
+      SECURITY_JWT_SECRET_KEY: YourFallbackSuperSecretKeyForLocalDevelopmentOnly
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/library_db
+      SPRING_DATASOURCE_USERNAME: user_admin
+      SPRING_DATASOURCE_PASSWORD: librarypassword
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     depends_on:
       - db
       - redis
