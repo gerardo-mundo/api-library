@@ -19,6 +19,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SECURITY_JWT_SECRET_KEY: YourFallbackSuperSecretKeyForLocalDevelopmentOnly
+      SECURITY_JWT_EXPIRATION_TIME: 86400000
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/library_db
       SPRING_DATASOURCE_USERNAME: user_admin
       SPRING_DATASOURCE_PASSWORD: librarypassword
