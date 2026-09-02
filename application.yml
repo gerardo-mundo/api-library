@@ -10,4 +10,4 @@ spring:
 
 security:
   jwt:
-    expiration-time: ${SECURITY_JWT_EXPIRATION_TIME}
+    expiration-time: ${SECURITY_JWT_EXPIRATION_TIME:86400000}
