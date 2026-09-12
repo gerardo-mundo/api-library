@@ -24,7 +24,7 @@ services:
       SPRING_REDIS_PORT: 6379
       SECURITY_JWT_EXPIRATION_TIME: 86400000
       SECURITY_JWT_SECRET_KEY: YourFallbackSuperSecretKeyForLocalDevelopmentOnly
-      CORS_ALLOWED_ORIGINS: "http://localhost:4200,http://localhost:3000"
+      SPRING_APPLICATION_CORS_ALLOWED_ORIGINS: "http://localhost:4200,http://localhost:3000"
     depends_on:
       - db
       - redis
