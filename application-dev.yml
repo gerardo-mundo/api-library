@@ -12,11 +12,6 @@ spring:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
 
-security:
-  jwt:
-    secret-key: ${JWT_SECRET:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}
-    expiration-time: ${JWT_EXPIRATION:86400000}
-
 springdoc:
   api-docs:
     enabled: true

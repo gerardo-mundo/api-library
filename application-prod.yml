@@ -11,10 +11,6 @@ spring:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT:6379}
 
-security:
-  jwt:
-    secret-key: ${JWT_SECRET}
-
 springdoc:
   api-docs:
     enabled: false
