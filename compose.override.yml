@@ -1,32 +1,21 @@
-services:
-  db:
-    environment:
-      POSTGRES_DB: library_db
-      POSTGRES_USER: user_admin
-      POSTGRES_PASSWORD: librarypassword
-    ports:
-      - "5432:5432"
+api:
+  image: gerardomundo/api-library:latest
+  ports:
+    - "8080:8080"
+  environment:
+    SPRING_PROFILES_ACTIVE: dev
 
-  redis:
-    ports:
-      - "6379:6379"
+    SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/library_db
+    SPRING_DATASOURCE_USERNAME: user_admin
+    SPRING_DATASOURCE_PASSWORD: librarypassword
 
-  api:
-    image: gerardomundo/api-library:latest
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: library_db
-      DB_USER: user_admin
-      DB_PASSWORD: librarypassword
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      SECURITY_JWT_EXPIRATION_TIME: 86400000
-      SECURITY_JWT_SECRET_KEY: YourFallbackSuperSecretKeyForLocalDevelopmentOnly
-      CORS_ALLOWED_ORIGINS: "http://localhost:4200,http://localhost:3000"
-    depends_on:
-      - db
-      - redis
+    SPRING_REDIS_HOST: redis
+    SPRING_REDIS_PORT: 6379
+
+    SECURITY_JWT_EXPIRATION_TIME: 86400000
+    SECURITY_JWT_SECRET_KEY: YourFallbackSuperSecretKeyForLocalDevelopmentOnly
+    CORS_ALLOWED_ORIGINS: "http://localhost:4200,http://localhost:3000"
+
+  depends_on:
+    - db
+    - redis
