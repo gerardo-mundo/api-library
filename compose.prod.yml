@@ -1,21 +1,24 @@
-api:
-  image: my-dockerhub/api-library:latest
-  ports:
-    - "80:8080"
-  environment:
-    SPRING_PROFILES_ACTIVE: prod
+services:
+  db:
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
 
-    SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
-    SPRING_DATASOURCE_USERNAME: ${DB_USER}
-    SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-
-    SPRING_REDIS_HOST: redis
-    SPRING_REDIS_PORT: ${REDIS_PORT:6379}
-
-    SECURITY_JWT_EXPIRATION_TIME: ${JWT_EXPIRATION}
-    SECURITY_JWT_SECRET_KEY: ${JWT_SECRET}
-    CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
-
-  depends_on:
-    - db
-    - redis
+  api:
+    image: my-dockerhub/api-library:latest
+    ports:
+      - "80:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: ${REDIS_PORT:6379}
+      SECURITY_JWT_EXPIRATION_TIME: ${JWT_EXPIRATION}
+      SECURITY_JWT_SECRET_KEY: ${JWT_SECRET}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+    depends_on:
+      - db
+      - redis
