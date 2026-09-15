@@ -10,5 +10,5 @@ spring:
 
 security:
   jwt:
-    expiration-time: ${JWT_EXPIRATION:86400000}
-    secret-key: ${JWT_SECRET:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}
+    expiration-time: ${SECURITY_JWT_EXPIRATION_TIME:86400000}
+    secret-key: ${SECURITY_JWT_SECRET_KEY:YourFallbackSuperSecretKeyForLocalDevelopmentOnly}
