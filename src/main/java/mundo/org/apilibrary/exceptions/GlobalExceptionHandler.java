@@ -55,6 +55,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleExceptions(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.failure("An unexpected error occurred. Please try again later."));
+                .body(ApiResponse.failure("An unexpected error occurred: " + ex.getMessage()));
     }
 }
