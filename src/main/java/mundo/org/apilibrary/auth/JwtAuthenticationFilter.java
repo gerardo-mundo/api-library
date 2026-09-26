@@ -6,13 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import mundo.org.apilibrary.services.JwtService;
-import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -21,9 +22,12 @@ import java.util.Collections;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
+    private final HandlerExceptionResolver exceptionResolver;
 
-    public JwtAuthenticationFilter(JwtService jwtService) {
+    public JwtAuthenticationFilter(JwtService jwtService,
+                                   @Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver) {
         this.jwtService = jwtService;
+        this.exceptionResolver = exceptionResolver;
     }
 
     @Override
@@ -38,6 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             final String authToken = authHeader.substring(7);
+            // TODO: Here we can implement a userDetailsService.loadUserByUsername(email) for stateful user management instead of the lines below
             final String role = jwtService.extractRole(authToken);
             final String userEmail = jwtService.extractUserEmail(authToken);
 
@@ -54,8 +59,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 }
             }
-        } catch (Exception e) {
-            throw new AuthenticationServiceException(e.getMessage());
+        } catch (Exception ex) {
+            exceptionResolver.resolveException(request, response, null, ex);
         }
         filterChain.doFilter(request, response);
     }
