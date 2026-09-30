@@ -1,15 +1,14 @@
 package mundo.org.apilibrary.exceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-
 import mundo.org.apilibrary.payload.ApiResponse;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.validation.FieldError;
-
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -49,9 +48,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.failure(ex.getMessage()));
     }
 
+    @ExceptionHandler(value = AuthenticationServiceException.class)
+    public ResponseEntity<ApiResponse<Object>> handleAuthenticationServiceException(AuthenticationServiceException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.failure(ex.getMessage()));
+    }
+
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    public ResponseEntity<ApiResponse<Object>> handleExpiredJwtException(ExpiredJwtException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.failure(ex.getMessage()));
+    }
+
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleExceptions(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.failure("An unexpected error occurred. Please try again later."));
+                .body(ApiResponse.failure("An unexpected error occurred: " + ex.getMessage()));
     }
 }
