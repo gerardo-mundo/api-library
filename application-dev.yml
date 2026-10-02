@@ -8,9 +8,10 @@ spring:
     username: ${DB_USER:user_admin}
     password: ${DB_PASSWORD:librarypassword}
 
-  redis:
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
 
 springdoc:
   api-docs:

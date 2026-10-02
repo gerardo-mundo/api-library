@@ -2,14 +2,16 @@ spring:
   application:
     cors:
       allowed-origins: ""
+
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT:6379}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
 
 springdoc:
   api-docs:
