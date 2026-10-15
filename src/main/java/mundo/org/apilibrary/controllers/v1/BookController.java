@@ -89,13 +89,8 @@ public class BookController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse<String>> deleteBookById(@PathVariable UUID id) {
-        BookDTO bookDTO = bookService.findById(id);
-
-        if (bookDTO == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+    public ResponseEntity<ApiResponse<Void>> deleteBookById(@PathVariable @Valid UUID id) {
         bookService.deleteBook(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ApiResponse.success(null, "Book deleted successfully"));
     }
 }
