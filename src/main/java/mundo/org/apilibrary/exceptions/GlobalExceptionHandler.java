@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponse<Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(ApiResponse.failure("A record with this unique identifier already exists."));
+                .body(ApiResponse.failure("Data integrity violation: " + ex.getMessage()));
     }
 
     @ExceptionHandler(value = IllegalAccessException.class)
