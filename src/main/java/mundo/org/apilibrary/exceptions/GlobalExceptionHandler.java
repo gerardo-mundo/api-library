@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -39,8 +40,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponse<Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Throwable rootCause = ex.getRootCause();
+
+        if (rootCause instanceof SQLException sqlEx) {
+            String sqlState = sqlEx.getSQLState();
+
+            if ("23505".equals(sqlState)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(ApiResponse.failure("A record with this unique value already exists."));
+            } else if ("23503".equals(sqlState)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(ApiResponse.failure("A record with this ID is being used and can't be updated or deleted"));
+            }
+        }
+
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(ApiResponse.failure("A record with this unique identifier already exists."));
+                .body(ApiResponse.failure("Data integrity violation: " + ex.getMessage()));
     }
 
     @ExceptionHandler(value = IllegalAccessException.class)
