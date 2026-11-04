@@ -6,10 +6,7 @@ import mundo.org.apilibrary.classes.Publication;
 
 import mundo.org.apilibrary.entities.Magazine;
 import mundo.org.apilibrary.entities.Paper;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ObjectFactory;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -36,5 +33,14 @@ public interface PublicationMapper {
             case MAGAZINE -> new Magazine();
             default -> throw new IllegalArgumentException("invalid type: " + dto.type());
         };
+    }
+
+    @AfterMapping
+    default void fillSubclassFields(PublicationCreationDTO dto, @MappingTarget Publication entity) {
+        if (entity instanceof Paper paper) {
+            paper.setCategory(dto.category());
+        } else if (entity instanceof Magazine magazine) {
+            magazine.setVolume(dto.volume());
+        }
     }
 }
