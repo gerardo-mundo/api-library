@@ -22,6 +22,8 @@ public interface PublicationMapper {
     @Mapping(target = "updatedAt", ignore = true)
     void updateEntityFromDto(PublicationCreationDTO dto, @MappingTarget Publication entity);
 
+    @SubclassMapping(source = Paper.class, target = PublicationDTO.class)
+    @SubclassMapping(source = Magazine.class, target = PublicationDTO.class)
     PublicationDTO toDTO(Publication publication);
 
     List<PublicationDTO> toDTOList(List<Publication> publicationList);
