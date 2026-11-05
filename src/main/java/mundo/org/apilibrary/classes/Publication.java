@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mundo.org.apilibrary.entities.Magazine;
 import mundo.org.apilibrary.entities.Paper;
+import mundo.org.apilibrary.enums.PublicationType;
 
 @Entity
 @Table(name = "publications")
@@ -30,5 +31,8 @@ public abstract class Publication extends Document {
     private String issn;
     @Column(nullable = false)
     private String publisher;
+
+    @Transient
+    public abstract PublicationType getType();
 }
 
